@@ -26,7 +26,7 @@ struct SymbolPickerHeader: View {
 				if let symbolPickerLimit, symbolPickerLimit < 20 {
 					HStack(alignment: .firstTextBaseline) {
 						ForEach(0..<(symbolPickerLimit), id: \.self) { index in
-							Image(systemName: "square.dotted")
+							Image(systemName: .emptySymbolSelectionSystemImage)
 								.opacity(selection[safe: index] == nil ? 0.25 : 0)
 								.minSize {
 									Image(systemName: "square.and.arrow.up")
