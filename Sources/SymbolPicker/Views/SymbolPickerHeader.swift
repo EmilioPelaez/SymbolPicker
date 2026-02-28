@@ -27,7 +27,8 @@ struct SymbolPickerHeader: View {
 					HStack(alignment: .firstTextBaseline) {
 						ForEach(0..<(symbolPickerLimit), id: \.self) { index in
 							Image(systemName: .emptySymbolSelectionSystemImage)
-								.opacity(selection[safe: index] == nil ? 0.25 : 0)
+								.opacity(selection[safe: index] == nil ? 1 : 0)
+								.foregroundStyle(.tertiary)
 								.minSize {
 									Image(systemName: "square.and.arrow.up")
 										.paddingTiny()

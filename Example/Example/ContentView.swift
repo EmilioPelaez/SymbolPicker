@@ -9,13 +9,16 @@ import SwiftUI
 import SymbolPicker
 
 struct ContentView: View {
-    var body: some View {
-			Form {
-				SymbolPicker(title: "Select Symbol", symbol: "pencil.circle.fill")
-			}
-    }
+	@State var symbols: [String] = []
+	
+	var body: some View {
+		Form {
+			SymbolPicker("Select Symbols", selection: $symbols)
+				.symbolPickerLimit(10)
+		}
+	}
 }
 
 #Preview {
-    ContentView()
+	ContentView()
 }

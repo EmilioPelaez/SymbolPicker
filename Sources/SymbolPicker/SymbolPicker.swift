@@ -9,21 +9,34 @@ import SwiftUI
 
 public struct SymbolPicker: View {
 	let title: String
-	let symbol: String
-	
-	public init(title: String, symbol: String) {
+	@Binding var selection: [String]
+	@State private var isPresented = false
+
+	public init(_ title: String, selection: Binding<[String]>) {
 		self.title = title
-		self.symbol = symbol
+		self._selection = selection
 	}
-	
+
 	public var body: some View {
 		Button {
-			print("Show symbol picker")
+			isPresented = true
 		}
 		label: {
 			LabeledContent(title) {
-				Image(systemName: symbol)
+				if selection.isEmpty {
+					Image(systemName: .emptySymbolSelectionSystemImage)
+						.foregroundStyle(.tertiary)
+				} else {
+					HStack {
+						ForEach(selection.enumerated(), id: \.offset) { _, symbol in
+							Image(systemName: symbol)
+						}
+					}
+				}
 			}
+		}
+		.sheet(isPresented: $isPresented) {
+			SymbolPickerScreen(symbols: $selection)
 		}
 	}
 }
