@@ -1,0 +1,33 @@
+{
+  "originHash" : "914aced60b39abe53cbca04b550fd853279c706297ab9c7067c03f82cdd37087",
+  "pins" : [
+    {
+      "identity" : "cgmath",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/EmilioPelaez/CGMath",
+      "state" : {
+        "revision" : "3c67235bca4719249647b80c46aa02bf30a5b780",
+        "version" : "1.0.5"
+      }
+    },
+    {
+      "identity" : "hierarchyresponder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/EmilioPelaez/HierarchyResponder",
+      "state" : {
+        "revision" : "df62cd74bb7bbe086f49189f5d2b8da1fba6ec41",
+        "version" : "1.2.1"
+      }
+    },
+    {
+      "identity" : "toolkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/EmilioPelaez/ToolKit",
+      "state" : {
+        "revision" : "855c3effb3da3b583093f046ab22b1262dfead82",
+        "version" : "0.3.1"
+      }
+    }
+  ],
+  "version" : 3
+}
