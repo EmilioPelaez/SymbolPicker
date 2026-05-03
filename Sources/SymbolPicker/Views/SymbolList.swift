@@ -3,6 +3,7 @@
 //
 
 import SwiftUI
+import UIToolKit
 
 struct SymbolList: View {
 	@Environment(\.symbolPickerLimit) var symbolPickerLimit
@@ -17,25 +18,22 @@ struct SymbolList: View {
 	}
 	
 	var body: some View {
-		ScrollView {
-			LazyVGrid(columns: columns) {
-				ForEach(symbols, id: \.self) { symbol in
-					Button {
-						if selection.contains(symbol) {
-							selection.remove(symbol)
-						} else if selection.count < (symbolPickerLimit ?? .max) {
-							selection.append(symbol)
-						} else {
-							print("Report Error")
-						}
-					} label: {
-						SymbolView(symbol: symbol, isSelected: selection.contains(symbol))
-							.font(.title)
+		LazyVGrid(columns: columns) {
+			ForEach(symbols, id: \.self) { symbol in
+				Button {
+					if selection.contains(symbol) {
+						selection.remove(symbol)
+					} else if selection.count < (symbolPickerLimit ?? .max) {
+						selection.append(symbol)
+					} else {
+						print("Report Error")
 					}
-					.buttonStyle(.plain)
+				} label: {
+					SymbolView(symbol: symbol, isSelected: selection.contains(symbol))
+						.font(.title)
 				}
+				.buttonStyle(.plain)
 			}
-			.padding()
 		}
 	}
 }

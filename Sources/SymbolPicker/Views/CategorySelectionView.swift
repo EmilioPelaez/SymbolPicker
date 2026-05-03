@@ -29,13 +29,12 @@ struct CategorySelectionView: View {
 								.symbolVariant(.fill)
 						} else: {
 							$0
-								.foregroundStyle(.secondary)
 						}
 						.id(category)
 					}
 				}
-				.padding(.horizontal)
-				.paddingTiny(.top)
+				.paddingMedium(.horizontal)
+				.paddingSmall(.vertical)
 				.onChange(of: selection) {
 					guard let selection else { return }
 					withAnimation {

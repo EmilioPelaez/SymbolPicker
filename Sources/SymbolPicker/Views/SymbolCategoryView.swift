@@ -8,12 +8,14 @@ struct SymbolCategoryView: View {
 	let symbols: [String]
 	@Binding var selection: [String]
 	
-	init(symbols: [String], selection: Binding<[String]>, category: SymbolCategory, loader: CategoryLoader) {
-		if category.key == "all" {
-			self.symbols = symbols
-		} else {
-			self.symbols = symbols.filter { loader.symbol($0, in: category) }
+	init(symbols: [String], selection: Binding<[String]>, category: SymbolCategory?, loader: CategoryLoader) {
+		func filter(_ symbols: [String], in category: SymbolCategory?) -> [String] {
+			guard let category, category.key != "all" else {
+				return symbols
+			}
+			return symbols.filter { loader.symbol($0, in: category) }
 		}
+		self.symbols = filter(symbols, in: category)
 		_selection = .init(projectedValue: selection)
 	}
 	
