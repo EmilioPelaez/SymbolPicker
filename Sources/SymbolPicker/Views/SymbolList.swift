@@ -24,18 +24,21 @@ struct SymbolList: View {
 		LazyVGrid(columns: columns) {
 			ForEach(processedSymbols, id: \.self) { symbol in
 				Button {
-					if selection.contains(symbol) {
-						selection.remove(symbol)
-					} else if selection.count < (symbolPickerLimit ?? .max) {
-						selection.append(symbol)
-					} else {
-						print("Report Error")
+					withAnimation(.spring(duration: 0.3)) {
+						if selection.contains(symbol) {
+							selection.remove(symbol)
+						} else if selection.count < (symbolPickerLimit ?? .max) {
+							selection.append(symbol)
+						} else {
+							print("Report Error")
+						}
 					}
 				} label: {
 					SymbolView(symbol: symbol, isSelected: selection.contains(symbol))
 						.font(.title)
 				}
 				.buttonStyle(.plain)
+				.id(symbol)
 			}
 		}
 	}
