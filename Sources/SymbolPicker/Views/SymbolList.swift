@@ -12,6 +12,9 @@ struct SymbolList: View {
 	
 	let symbols: [String]
 	@Binding var selection: [String]
+	var processedSymbols: [String] {
+		selection + symbols.filter { !selection.contains($0) }
+	}
 	
 	var columns: [GridItem] {
 		[.init(.adaptive(minimum: max(50, minWidth), maximum: maxWidth))]
@@ -19,7 +22,7 @@ struct SymbolList: View {
 	
 	var body: some View {
 		LazyVGrid(columns: columns) {
-			ForEach(symbols, id: \.self) { symbol in
+			ForEach(processedSymbols, id: \.self) { symbol in
 				Button {
 					if selection.contains(symbol) {
 						selection.remove(symbol)
