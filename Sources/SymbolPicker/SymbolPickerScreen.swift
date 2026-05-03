@@ -26,53 +26,57 @@ public struct SymbolPickerScreen: View {
 	}
 	
 	public var body: some View {
-		if #available(iOS 26.0, *) {
-			NavigationView {
-				ScrollView {
-					if let category {
-						SymbolCategoryView(symbols: symbolLoader.symbols,
-															 selection: $selection,
-															 category: category,
-															 loader: categoryLoader)
-						.paddingMedium()
-					} else if !searchQuery.isEmpty {
-						SymbolSearchView(symbols: symbolLoader.symbols,
-														 query: searchQuery,
-														 selection: $selection)
-						.paddingMedium()
-					} else {
-						ProgressView()
-							.progressViewStyle(.circular)
-					}
-				}
-				.safeAreaInset(edge: .bottom) {
-					CategorySelectionView(selection: $category,
-																categories: categoryLoader.categories)
-					.glassEffect(.regular, in: .capsule)
-					.paddingMedium(.horizontal)
-				}
-				.frame(minHeight: 300, idealHeight: 600)
-				.onAppear {
-					category = categoryLoader.categories.first
-				}
-				.toolbar {
-					ToolbarItem(placement: .confirmationAction) {
-						Button(action: onDone ?? dismiss.callAsFunction) {
-							Image(systemName: "checkmark")
-						}
-						.buttonStyle(.glassProminent)
-						.tint(.blue)
-						.disabled(selection.isEmpty)
-					}
-				}
-				.toolbar {
-					ToolbarItem(placement: .cancellationAction) {
-						ModalDismissButton(dismiss)
-					}
+		
+		NavigationView {
+			ScrollView {
+				if !searchQuery.isEmpty {
+					SymbolSearchView(symbols: symbolLoader.symbols,
+													 query: searchQuery,
+													 selection: $selection)
+					.paddingMedium()
+				} else if let category {
+					SymbolCategoryView(symbols: symbolLoader.symbols,
+														 selection: $selection,
+														 category: category,
+														 loader: categoryLoader)
+					.paddingMedium()
+				} else {
+					ProgressView()
+						.progressViewStyle(.circular)
 				}
 			}
-		} else {
-			Text(":(")
+			.navigationTitle("Select Symbols")
+			.navigationBarTitleDisplayMode(.inline)
+			.searchable(text: $searchQuery)
+			.safeAreaInset(edge: .bottom) {
+				if searchQuery.isEmpty {
+					CategorySelectionView(selection: $category,
+																categories: categoryLoader.categories)
+					.floatingBackground()
+					.paddingMedium(.horizontal)
+					.transition(.opacity)
+					.animation(.linear, value: searchQuery.isEmpty)
+				}
+			}
+			.frame(minHeight: 300, idealHeight: 600)
+			.onAppear {
+				category = categoryLoader.categories.first
+			}
+			.toolbar {
+				ToolbarItem(placement: .confirmationAction) {
+					Button(action: onDone ?? dismiss.callAsFunction) {
+						Image(systemName: "checkmark")
+					}
+					.prominentButton()
+					.tint(.blue)
+					.disabled(selection.isEmpty)
+				}
+			}
+			.toolbar {
+				ToolbarItem(placement: .cancellationAction) {
+					ModalDismissButton(dismiss)
+				}
+			}
 		}
 	}
 }

@@ -20,7 +20,7 @@ class SearchLoader: ObservableObject {
 	}
 	
 	func symbol(_ symbol: String, matches query: String) -> Bool {
-		(symbol + queries[symbol, default: ""]).contains(query)
+		return queries[symbol, default: symbol].localizedStandardContains(query)
 	}
 	
 	private func load() throws -> [String: String] {
@@ -28,6 +28,10 @@ class SearchLoader: ObservableObject {
 		let path = try bundle.url(forResource: "symbol_search", withExtension: "plist").unwrap()
 		let data = try Data(contentsOf: path)
 		let values = try PropertyListDecoder().decode([String: [String]].self, from: data)
-		return values.mapValues { $0.joined(separator: " ") }
+		var final: [String: String] = [:]
+		values.forEach {
+			final[$0] = ([$0] + $1).joined(separator: " ")
+		}
+		return final
 	}
 }
