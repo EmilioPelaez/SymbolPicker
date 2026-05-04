@@ -26,18 +26,18 @@ struct SymbolList: View {
 			Section {
 				ForEach(selection, id: \.self) { symbol in
 					button(for: symbol, isSelected: true)
-						.matchedGeometryEffect(id: symbol, in: symbolList)
+						.id(symbol + "_selected")
+//						.matchedGeometryEffect(id: symbol, in: symbolList)
 				}
 			}
 			Section {
 				ForEach(processedSymbols, id: \.self) { symbol in
 					button(for: symbol, isSelected: false)
-						.matchedGeometryEffect(id: symbol, in: symbolList)
+						.id(symbol)
+//						.matchedGeometryEffect(id: symbol, in: symbolList)
 				}
 			}
 		}
-		.animation(.easeInOut, value: selection)
-		.animation(.easeInOut, value: symbols)
 	}
 	
 	func button(for symbol: String, isSelected: Bool) -> some View {
@@ -58,5 +58,6 @@ struct SymbolList: View {
 				.font(.title)
 		}
 		.buttonStyle(.plain)
+		.transition(.opacity)
 	}
 }
