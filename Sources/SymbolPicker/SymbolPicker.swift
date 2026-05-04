@@ -10,11 +10,22 @@ import SwiftUI
 public struct SymbolPicker: View {
 	let title: String
 	@Binding var selection: [String]
+	let singleMode: Bool
 	@State private var isPresented = false
+
+	public init(_ title: String, selection: Binding<String?>) {
+		self.title = title
+		self._selection = Binding(
+			get: { selection.wrappedValue.map { [$0] } ?? [] },
+			set: { selection.wrappedValue = $0.last }
+		)
+		self.singleMode = true
+	}
 
 	public init(_ title: String, selection: Binding<[String]>) {
 		self.title = title
 		self._selection = selection
+		self.singleMode = false
 	}
 
 	public var body: some View {
@@ -36,7 +47,8 @@ public struct SymbolPicker: View {
 			}
 		}
 		.sheet(isPresented: $isPresented) {
-			SymbolPickerScreen(symbols: $selection)
+			SymbolPickerScreen(symbols: $selection, onDone: singleMode ? { isPresented = false } : nil)
+				.if(singleMode) { $0.symbolPickerLimit(1) }
 		}
 	}
 }

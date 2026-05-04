@@ -12,17 +12,24 @@ public struct SymbolPickerScreen: View {
 	
 	@Binding var selection: [String]
 	let onDone: (() -> Void)?
-	
+	let singleMode: Bool
+
 	@State var category: SymbolCategory?
 	@State var searchQuery: String = ""
-	//	TODO: Implement single symbol selection
-	//	public init(symbol: Binding<String?>) {
-	//
-	//	}
-	
+
+	public init(symbol: Binding<String?>, onDone: (() -> Void)? = nil) {
+		self._selection = Binding(
+			get: { symbol.wrappedValue.map { [$0] } ?? [] },
+			set: { symbol.wrappedValue = $0.last }
+		)
+		self.onDone = onDone
+		self.singleMode = true
+	}
+
 	public init(symbols: Binding<[String]>, onDone: (() -> Void)? = nil) {
 		self._selection = .init(projectedValue: symbols)
 		self.onDone = onDone
+		self.singleMode = false
 	}
 	
 	public var body: some View {
@@ -76,6 +83,12 @@ public struct SymbolPickerScreen: View {
 				ToolbarItem(placement: .cancellationAction) {
 					ModalDismissButton(dismiss)
 				}
+			}
+		}
+		.if(singleMode) { $0.symbolPickerLimit(1) }
+		.onChange(of: selection) {
+			if singleMode, !selection.isEmpty {
+				onDone?()
 			}
 		}
 	}
