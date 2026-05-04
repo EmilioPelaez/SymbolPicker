@@ -8,6 +8,8 @@ import UIToolKit
 public struct SymbolPickerScreen: View {
 	@Environment(\.dismiss) var dismiss
 	@Environment(\.symbolPickerLimit) var symbolPickerLimit
+	@Environment(\.ignoredSymbolCategories) var ignoredSymbolCategories
+	@Environment(\.symbolPickerTitle) var symbolPickerTitle
 	
 	@StateObject var symbolLoader = SymbolLoader()
 	@StateObject var categoryLoader = CategoryLoader()
@@ -37,41 +39,53 @@ public struct SymbolPickerScreen: View {
 	var limit: Int? {
 		singleMode ? 1 : symbolPickerLimit
 	}
+
+	var filteredCategories: [SymbolCategory] {
+		categoryLoader.categories.filter { !ignoredSymbolCategories.contains($0.key) }
+	}
 	
-	var title: String {
+	var title: Text {
 		switch limit {
-		case .some(1): "Select Symbol"
-		case .none: "Select Symbols"
-		case .some(let value): "Select Symbols (\(selection.count)/\(value))"
+		case .some(1): Text("Select Symbol")
+		case .none: Text("Select Symbols")
+		case .some(let value): Text("Select Symbols (\(selection.count)/\(value))")
 		}
 	}
 	
 	public var body: some View {
 		NavigationView {
-			ScrollView {
-				if !searchQuery.isEmpty {
-					SymbolSearchView(symbols: symbolLoader.symbols,
-													 query: searchQuery,
-													 selection: $selection)
-					.paddingMedium()
-				} else if let category {
-					SymbolCategoryView(symbols: symbolLoader.symbols,
-														 selection: $selection,
-														 category: category,
-														 loader: categoryLoader)
-					.paddingMedium()
-				} else {
-					ProgressView()
-						.progressViewStyle(.circular)
+			ScrollViewReader { proxy in
+				ScrollView {
+					Color.clear
+						.frame(height: 0)
+						.id("top")
+					if !searchQuery.isEmpty {
+						SymbolSearchView(symbols: symbolLoader.symbols,
+														 query: searchQuery,
+														 selection: $selection)
+						.paddingMedium()
+					} else if let category {
+						SymbolCategoryView(symbols: symbolLoader.symbols,
+															 selection: $selection,
+															 category: category,
+															 loader: categoryLoader)
+						.paddingMedium()
+					} else {
+						ProgressView()
+							.progressViewStyle(.circular)
+					}
+				}
+				.onChange(of: searchQuery) {
+					proxy.scrollTo("top", anchor: .top)
 				}
 			}
-			.navigationTitle(title)
+			.navigationTitle(symbolPickerTitle ?? title)
 			.navigationBarTitleDisplayMode(.inline)
 			.searchable(text: $searchQuery)
 			.safeAreaInset(edge: .bottom) {
 				if searchQuery.isEmpty {
 					CategorySelectionView(selection: $category,
-																categories: categoryLoader.categories)
+																categories: filteredCategories)
 					.floatingBackground()
 					.paddingMedium(.horizontal)
 					.transition(.opacity)
@@ -80,7 +94,7 @@ public struct SymbolPickerScreen: View {
 			}
 			.frame(minHeight: 300, idealHeight: 600)
 			.onAppear {
-				category = categoryLoader.categories.first
+				category = filteredCategories.first
 			}
 			.toolbar {
 				ToolbarItem(placement: .confirmationAction) {

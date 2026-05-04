@@ -22,5 +22,5 @@ public extension View {
 extension EnvironmentValues {
 	@Entry var symbolPickerLimit: Int? = 5
 	@Entry var ignoredSymbolCategories = ["whatsnew", "multicolor", "variablecolor"]
-	@Entry var symbolPickerTitle: Text = .init("Select Icons").font(.title3)
+	@Entry var symbolPickerTitle: Text?
 }
