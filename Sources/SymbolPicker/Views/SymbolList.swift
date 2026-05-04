@@ -9,11 +9,12 @@ struct SymbolList: View {
 	@Environment(\.symbolPickerLimit) var symbolPickerLimit
 	@ScaledMetric var minWidth: CGFloat = 40
 	@ScaledMetric var maxWidth: CGFloat = 80
+	@Namespace var symbolList
 	
 	let symbols: [String]
 	@Binding var selection: [String]
 	var processedSymbols: [String] {
-		selection + symbols.filter { !selection.contains($0) }
+		symbols.filter { !selection.contains($0) }
 	}
 	
 	var columns: [GridItem] {
@@ -22,24 +23,40 @@ struct SymbolList: View {
 	
 	var body: some View {
 		LazyVGrid(columns: columns) {
-			ForEach(processedSymbols, id: \.self) { symbol in
-				Button {
-					withAnimation(.spring(duration: 0.3)) {
-						if selection.contains(symbol) {
-							selection.remove(symbol)
-						} else if selection.count < (symbolPickerLimit ?? .max) {
-							selection.append(symbol)
-						} else {
-							print("Report Error")
-						}
-					}
-				} label: {
-					SymbolView(symbol: symbol, isSelected: selection.contains(symbol))
-						.font(.title)
+			Section {
+				ForEach(selection, id: \.self) { symbol in
+					button(for: symbol, isSelected: true)
+						.matchedGeometryEffect(id: symbol, in: symbolList)
 				}
-				.buttonStyle(.plain)
-				.id(symbol)
+			}
+			Section {
+				ForEach(processedSymbols, id: \.self) { symbol in
+					button(for: symbol, isSelected: false)
+						.matchedGeometryEffect(id: symbol, in: symbolList)
+				}
 			}
 		}
+		.animation(.easeInOut, value: selection)
+		.animation(.easeInOut, value: symbols)
+	}
+	
+	func button(for symbol: String, isSelected: Bool) -> some View {
+		Button {
+			withAnimation(.easeInOut) {
+				if selection.contains(symbol) {
+					selection.remove(symbol)
+				} else if selection.count < (symbolPickerLimit ?? .max) {
+					selection.append(symbol)
+				} else if symbolPickerLimit == 1 {
+					selection = [symbol]
+				} else {
+					print("Report Error")
+				}
+			}
+		} label: {
+			SymbolView(symbol: symbol, isSelected: isSelected)
+				.font(.title)
+		}
+		.buttonStyle(.plain)
 	}
 }

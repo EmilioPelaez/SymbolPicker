@@ -31,7 +31,6 @@ struct SymbolView: View {
 		}
 		.storeSize(in: $size)
 		.frame(height: side)
-		.animation(.spring(duration: 0.3), value: isSelected)
 	}
 }
 
