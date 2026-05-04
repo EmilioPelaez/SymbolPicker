@@ -28,6 +28,13 @@ public struct SymbolPicker: View {
 		self.singleMode = false
 	}
 
+	var singleSymbol: Binding<String?> {
+		Binding(
+			get: { selection.last },
+			set: { selection = $0.map { [$0] } ?? [] }
+		)
+	}
+
 	public var body: some View {
 		Button {
 			isPresented = true
@@ -47,8 +54,11 @@ public struct SymbolPicker: View {
 			}
 		}
 		.sheet(isPresented: $isPresented) {
-			SymbolPickerScreen(symbols: $selection, onDone: singleMode ? { isPresented = false } : nil)
-				.if(singleMode) { $0.symbolPickerLimit(1) }
+			if singleMode {
+				SymbolPickerScreen(symbol: singleSymbol, onDone: { isPresented = false })
+			} else {
+				SymbolPickerScreen(symbols: $selection)
+			}
 		}
 	}
 }

@@ -7,16 +7,18 @@ import UIToolKit
 
 public struct SymbolPickerScreen: View {
 	@Environment(\.dismiss) var dismiss
+	@Environment(\.symbolPickerLimit) var symbolPickerLimit
+	
 	@StateObject var symbolLoader = SymbolLoader()
 	@StateObject var categoryLoader = CategoryLoader()
 	
 	@Binding var selection: [String]
 	let onDone: (() -> Void)?
 	let singleMode: Bool
-
+	
 	@State var category: SymbolCategory?
 	@State var searchQuery: String = ""
-
+	
 	public init(symbol: Binding<String?>, onDone: (() -> Void)? = nil) {
 		self._selection = Binding(
 			get: { symbol.wrappedValue.map { [$0] } ?? [] },
@@ -25,15 +27,26 @@ public struct SymbolPickerScreen: View {
 		self.onDone = onDone
 		self.singleMode = true
 	}
-
+	
 	public init(symbols: Binding<[String]>, onDone: (() -> Void)? = nil) {
 		self._selection = .init(projectedValue: symbols)
 		self.onDone = onDone
 		self.singleMode = false
 	}
 	
+	var limit: Int? {
+		singleMode ? 1 : symbolPickerLimit
+	}
+	
+	var title: String {
+		switch limit {
+		case .some(1): "Select Symbol"
+		case .none: "Select Symbols"
+		case .some(let value): "Select Symbols (\(selection.count)/\(value))"
+		}
+	}
+	
 	public var body: some View {
-		
 		NavigationView {
 			ScrollView {
 				if !searchQuery.isEmpty {
@@ -52,7 +65,7 @@ public struct SymbolPickerScreen: View {
 						.progressViewStyle(.circular)
 				}
 			}
-			.navigationTitle("Select Symbols")
+			.navigationTitle(title)
 			.navigationBarTitleDisplayMode(.inline)
 			.searchable(text: $searchQuery)
 			.safeAreaInset(edge: .bottom) {
@@ -71,26 +84,33 @@ public struct SymbolPickerScreen: View {
 			}
 			.toolbar {
 				ToolbarItem(placement: .confirmationAction) {
-					Button(action: onDone ?? dismiss.callAsFunction) {
-						Image(systemName: "checkmark")
+					if selection.isEmpty {
+						ModalDismissButton(doneAction)
+					} else {
+						Button(action: doneAction) {
+							Image(systemName: "checkmark")
+						}
+						.prominentButton()
+						.tint(.blue)
+						.disabled(selection.isEmpty)
 					}
-					.prominentButton()
-					.tint(.blue)
-					.disabled(selection.isEmpty)
-				}
-			}
-			.toolbar {
-				ToolbarItem(placement: .cancellationAction) {
-					ModalDismissButton(dismiss)
 				}
 			}
 		}
-		.if(singleMode) { $0.symbolPickerLimit(1) }
-		.onChange(of: selection) {
-			if singleMode, !selection.isEmpty {
-				onDone?()
+		.symbolPickerLimit(limit)
+		.onChange(of: selection) { oldValue, newValue in
+			if singleMode, !newValue.isEmpty {
+				doneAction()
 			}
 		}
+	}
+	
+	func doneAction() -> Void {
+		guard let onDone else {
+			dismiss()
+			return
+		}
+		onDone()
 	}
 }
 

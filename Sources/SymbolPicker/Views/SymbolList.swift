@@ -16,6 +16,9 @@ struct SymbolList: View {
 	var processedSymbols: [String] {
 		symbols.filter { !selection.contains($0) }
 	}
+	var placeholderSymbols: [String] {
+		selection.isEmpty ? [.emptySymbolSelectionSystemImage] : []
+	}
 	
 	var columns: [GridItem] {
 		[.init(.adaptive(minimum: max(50, minWidth), maximum: maxWidth))]
@@ -24,17 +27,20 @@ struct SymbolList: View {
 	var body: some View {
 		LazyVGrid(columns: columns) {
 			Section {
+				if selection.isEmpty {
+					button(for: .emptySymbolSelectionSystemImage, isSelected: false)
+						.id("placeholder")
+						.visiblyDisabled(true)
+				}
 				ForEach(selection, id: \.self) { symbol in
 					button(for: symbol, isSelected: true)
 						.id(symbol + "_selected")
-//						.matchedGeometryEffect(id: symbol, in: symbolList)
 				}
 			}
 			Section {
 				ForEach(processedSymbols, id: \.self) { symbol in
 					button(for: symbol, isSelected: false)
 						.id(symbol)
-//						.matchedGeometryEffect(id: symbol, in: symbolList)
 				}
 			}
 		}
