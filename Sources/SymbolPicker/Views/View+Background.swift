@@ -9,6 +9,16 @@ import SwiftUI
 
 extension View {
 	@ViewBuilder
+	func navigationBarTitleDisplayModeInline() -> some View {
+		#if os(iOS)
+		navigationBarTitleDisplayMode(.inline)
+		#else
+		self
+		#endif
+	}
+
+
+	@ViewBuilder
 	func floatingBackground() -> some View {
 		if #available(iOS 26.0, macOS 26.0, tvOS 26.0, watchOS 26.0, *) {
 			glassEffect(.regular, in: .capsule)

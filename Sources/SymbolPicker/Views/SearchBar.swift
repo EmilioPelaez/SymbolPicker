@@ -26,16 +26,6 @@ struct SearchBar: View {
 				.foregroundStyle(.secondary)
 			}
 		}
-		.paddingMedium(.horizontal)
-		.paddingMedium(.vertical)
-		.background {
-			RoundedRectangle(cornerRadius: .paddingMedium)
-				.fill(.quaternary)
-				.opacity(0.5)
-		}
-		.onTapGesture {
-			focused = true
-		}
 	}
 }
 

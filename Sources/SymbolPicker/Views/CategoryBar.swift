@@ -5,7 +5,7 @@
 import SwiftUI
 import UIToolKit
 
-struct CategorySelectionView: View {
+struct CategoryBar: View {
 	@Binding var selection: SymbolCategory?
 	let categories: [SymbolCategory]
 	
@@ -48,7 +48,7 @@ struct CategorySelectionView: View {
 }
 
 #Preview {
-	CategorySelectionView(selection: .constant(SymbolCategory(key: "a", icon: "dog")),
+	CategoryBar(selection: .constant(SymbolCategory(key: "a", icon: "dog")),
 												categories: [
 													SymbolCategory(key: "a", icon: "dog"),
 													SymbolCategory(key: "b", icon: "cat"),

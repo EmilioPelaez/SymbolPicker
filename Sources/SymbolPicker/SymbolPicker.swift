@@ -9,8 +9,8 @@ import SwiftUI
 
 public struct SymbolPicker: View {
 	let title: String
+	let mode: Mode
 	@Binding var selection: [String]
-	let singleMode: Bool
 	@State private var isPresented = false
 
 	public init(_ title: String, selection: Binding<String?>) {
@@ -19,20 +19,13 @@ public struct SymbolPicker: View {
 			get: { selection.wrappedValue.map { [$0] } ?? [] },
 			set: { selection.wrappedValue = $0.last }
 		)
-		self.singleMode = true
+		self.mode = .singleSelection
 	}
 
 	public init(_ title: String, selection: Binding<[String]>) {
 		self.title = title
 		self._selection = selection
-		self.singleMode = false
-	}
-
-	var singleSymbol: Binding<String?> {
-		Binding(
-			get: { selection.last },
-			set: { selection = $0.map { [$0] } ?? [] }
-		)
+		self.mode = .multipleSelection
 	}
 
 	public var body: some View {
@@ -53,12 +46,12 @@ public struct SymbolPicker: View {
 				}
 			}
 		}
-		.sheet(isPresented: $isPresented) {
-			if singleMode {
-				SymbolPickerScreen(symbol: singleSymbol, onDone: { isPresented = false })
-			} else {
-				SymbolPickerScreen(symbols: $selection)
-			}
+		.popover(isPresented: $isPresented) {
+			#if os(iOS)
+			SymbolPickerCompactScreen(mode: mode, onDone: { isPresented = false }, selection: $selection)
+			#else
+			SymbolPickerWideScreen(mode: mode, onDone: { isPresented = false }, selection: $selection)
+			#endif
 		}
 	}
 }
