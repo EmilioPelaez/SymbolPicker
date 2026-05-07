@@ -80,7 +80,9 @@ public struct SymbolPickerScreen: View {
 				}
 			}
 			.navigationTitle(symbolPickerTitle ?? title)
+			#if !os(macOS)
 			.navigationBarTitleDisplayMode(.inline)
+			#endif
 			.searchable(text: $searchQuery)
 			.safeAreaInset(edge: .bottom) {
 				if searchQuery.isEmpty {

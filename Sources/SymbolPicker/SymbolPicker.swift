@@ -46,8 +46,8 @@ public struct SymbolPicker: View {
 						.foregroundStyle(.tertiary)
 				} else {
 					HStack {
-						ForEach(selection.enumerated(), id: \.offset) { _, symbol in
-							Image(systemName: symbol)
+						ForEach(selection.indices, id: \.self) { index in
+							Image(systemName: selection[index])
 						}
 					}
 				}
