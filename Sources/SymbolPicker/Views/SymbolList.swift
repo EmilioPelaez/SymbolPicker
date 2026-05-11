@@ -13,6 +13,7 @@ struct SymbolList: View {
 	
 	let symbols: [String]
 	@Binding var selection: [String]
+	@State var wiggleTriggers: [String: Int] = [:]
 	var processedSymbols: [String] {
 		symbols.filter { !selection.contains($0) }
 	}
@@ -56,12 +57,13 @@ struct SymbolList: View {
 				} else if symbolPickerLimit == 1 {
 					selection = [symbol]
 				} else {
-					print("Report Error")
+					wiggleTriggers[symbol, default: 0] += 1
 				}
 			}
 		} label: {
-			SymbolView(symbol: symbol, isSelected: isSelected)
+			SymbolView(symbol: symbol, isSelected: isSelected, wiggleTrigger: wiggleTriggers[symbol, default: 0])
 				.font(.title)
+				.contentShape(.rect)
 		}
 		.buttonStyle(.plain)
 		.transition(.opacity)
