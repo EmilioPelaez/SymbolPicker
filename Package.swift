@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
 	name: "SymbolPicker",
+	defaultLocalization: "en",
 	platforms: [.iOS(.v17), .macOS(.v14)],
 	products: [
 		.library(
