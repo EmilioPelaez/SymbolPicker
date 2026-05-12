@@ -17,7 +17,7 @@ struct SymbolCategoryView: View {
 			return symbols.filter { loader.symbol($0, in: category) }
 		}
 		self.symbols = filter(symbols, in: category)
-		self.sectionTitle = category.flatMap { $0.key != "all" ? $0.key.capitalized : nil } ?? "All Symbols"
+		self.sectionTitle = NSLocalizedString(category?.key ?? "all", bundle: .module, comment: "")
 		_selection = .init(projectedValue: selection)
 	}
 

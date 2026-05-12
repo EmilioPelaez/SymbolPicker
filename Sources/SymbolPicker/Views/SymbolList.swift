@@ -37,9 +37,9 @@ struct SymbolList: View {
 
 	var selectionHeader: String {
 		if let limit = symbolPickerLimit {
-			"Selection (\(selection.count)/\(limit))"
+			String(localized: "Selection (\(selection.count)/\(limit))", bundle: .module)
 		} else {
-			"Selection (\(selection.count))"
+			String(localized: "Selection (\(selection.count))", bundle: .module)
 		}
 	}
 
