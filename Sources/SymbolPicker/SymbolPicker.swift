@@ -8,13 +8,13 @@
 import SwiftUI
 
 public struct SymbolPicker: View {
-	let title: String
+	let title: Text
 	let mode: Mode
 	@Binding var selection: [String]
 	@State private var isPresented = false
 
-	public init(_ title: String, selection: Binding<String?>) {
-		self.title = title
+	public init(_ titleKey: LocalizedStringKey, selection: Binding<String?>) {
+		self.title = Text(titleKey)
 		self._selection = Binding(
 			get: { selection.wrappedValue.map { [$0] } ?? [] },
 			set: { selection.wrappedValue = $0.last }
@@ -22,8 +22,23 @@ public struct SymbolPicker: View {
 		self.mode = .singleSelection
 	}
 
-	public init(_ title: String, selection: Binding<[String]>) {
-		self.title = title
+	public init(_ titleKey: LocalizedStringKey, selection: Binding<[String]>) {
+		self.title = Text(titleKey)
+		self._selection = selection
+		self.mode = .multipleSelection
+	}
+
+	public init<S: StringProtocol>(_ title: S, selection: Binding<String?>) {
+		self.title = Text(verbatim: String(title))
+		self._selection = Binding(
+			get: { selection.wrappedValue.map { [$0] } ?? [] },
+			set: { selection.wrappedValue = $0.last }
+		)
+		self.mode = .singleSelection
+	}
+
+	public init<S: StringProtocol>(_ title: S, selection: Binding<[String]>) {
+		self.title = Text(verbatim: String(title))
 		self._selection = selection
 		self.mode = .multipleSelection
 	}
@@ -33,7 +48,7 @@ public struct SymbolPicker: View {
 			isPresented = true
 		}
 		label: {
-			LabeledContent(title) {
+			LabeledContent {
 				if selection.isEmpty {
 					Image(systemName: .emptySymbolSelectionSystemImage)
 						.foregroundStyle(.tertiary)
@@ -44,6 +59,8 @@ public struct SymbolPicker: View {
 						}
 					}
 				}
+			} label: {
+				title
 			}
 		}
 		.popover(isPresented: $isPresented) {
