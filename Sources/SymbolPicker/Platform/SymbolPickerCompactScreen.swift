@@ -33,11 +33,7 @@ struct SymbolPickerCompactScreen: View {
 	}
 
 	var title: Text {
-		switch limit {
-		case .some(1): Text("Select Symbol")
-		case .none: Text("Select Symbols")
-		case .some(let value): Text("Select Symbols (\(selection.count)/\(value))")
-		}
+		mode == .singleSelection ? Text("Select Symbol") : Text("Select Symbols")
 	}
 
 	var body: some View {
@@ -66,7 +62,7 @@ struct SymbolPickerCompactScreen: View {
 			}
 			.toolbar {
 				ToolbarItem(placement: .confirmationAction) {
-					if selection.isEmpty {
+					if selection.isEmpty || limit == 1 {
 						ModalDismissButton(onDone)
 					} else {
 						Button(action: onDone) {

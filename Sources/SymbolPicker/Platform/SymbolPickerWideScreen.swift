@@ -35,7 +35,7 @@ struct SymbolPickerWideScreen: View {
 		VStack(spacing: 0) {
 			HStack {
 				SearchBar(query: $searchQuery)
-				if selection.isEmpty {
+				if selection.isEmpty || limit == 1 {
 					ModalDismissButton(onDone)
 				} else {
 					Button(action: onDone) {

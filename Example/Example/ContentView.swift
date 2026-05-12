@@ -16,7 +16,6 @@ struct ContentView: View {
 		Form {
 			SymbolPicker("Select Symbol", selection: $oneSymbol)
 			SymbolPicker("Select Symbols", selection: $symbols)
-				.symbolPickerLimit(10)
 		}
 	}
 }

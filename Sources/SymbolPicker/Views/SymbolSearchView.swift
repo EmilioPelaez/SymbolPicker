@@ -16,6 +16,6 @@ struct SymbolSearchView: View {
 	}
 	
 	var body: some View {
-		SymbolList(symbols: filteredSymbols, selection: $selection)
+		SymbolList(symbols: filteredSymbols, sectionTitle: "Search Results", selection: $selection)
 	}
 }
