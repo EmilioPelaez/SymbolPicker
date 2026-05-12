@@ -33,7 +33,7 @@ struct SymbolPickerCompactScreen: View {
 	}
 
 	var title: Text {
-		mode == .singleSelection ? Text("Select Symbol", bundle: .module) : Text("Select Symbols", bundle: .module)
+		mode == .singleSelection ? Text("Select Icon", bundle: .module) : Text("Select Icons", bundle: .module)
 	}
 
 	var body: some View {

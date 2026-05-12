@@ -65,55 +65,55 @@
         "ar-SA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "جميع الرموز"
+            "value" : "جميع الأيقونات"
           }
         },
         "de-DE" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alle Symbole"
+            "value" : "Alle Icons"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "All Symbols"
+            "value" : "All Icons"
           }
         },
         "es-MX" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Todos los símbolos"
+            "value" : "Todos los íconos"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "सभी प्रतीक"
+            "value" : "सभी आइकन"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "すべてのシンボル"
+            "value" : "すべてのアイコン"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "모든 심볼"
+            "value" : "모든 아이콘"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Todos os símbolos"
+            "value" : "Todos os ícones"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "所有符号"
+            "value" : "所有图标"
           }
         }
       }
@@ -1453,118 +1453,118 @@
         }
       }
     },
-    "Select Symbol" : {
+    "Select Icon" : {
       "localizations" : {
         "ar-SA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "اختر رمزاً"
+            "value" : "اختر أيقونة"
           }
         },
         "de-DE" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Symbol auswählen"
+            "value" : "Icon auswählen"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Select Symbol"
+            "value" : "Select Icon"
           }
         },
         "es-MX" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seleccionar Símbolo"
+            "value" : "Seleccionar Ícono"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "प्रतीक चुनें"
+            "value" : "आइकन चुनें"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "シンボルを選択"
+            "value" : "アイコンを選択"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "심볼 선택"
+            "value" : "아이콘 선택"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Selecionar símbolo"
+            "value" : "Selecionar Ícone"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "选择符号"
+            "value" : "选择图标"
           }
         }
       }
     },
-    "Select Symbols" : {
+    "Select Icons" : {
       "localizations" : {
         "ar-SA" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "اختر رموزاً"
+            "value" : "اختر أيقونات"
           }
         },
         "de-DE" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Symbole auswählen"
+            "value" : "Icons auswählen"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Select Symbols"
+            "value" : "Select Icons"
           }
         },
         "es-MX" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seleccionar símbolos"
+            "value" : "Seleccionar Íconos"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "प्रतीक चुनें"
+            "value" : "आइकन चुनें"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "シンボルを選択"
+            "value" : "アイコンを選択"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "심볼 선택"
+            "value" : "아이콘 선택"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Selecionar símbolos"
+            "value" : "Selecionar Ícones"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "选择符号"
+            "value" : "选择图标"
           }
         }
       }
